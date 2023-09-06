@@ -11,12 +11,49 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/assets/index.html'))
-);
-
-app.get('/api/db', (req, res) => {
-    res.status(200).json(`${req.method} request recieved to get notes`);
-
-console.info(`${req.method} request recieved to get notes`);
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'))
 });
+
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+});
+
+app.get('/api/notes', (req, res) => {
+    fs.readFile('./db/db.json', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log(data);
+
+        var notesData = JSON.parse(data)
+        console.log(notesData)
+
+        res.send(notesData)
+      });
+});
+app.post('/api/notes', (req, res) => {
+    fs.writeFile('./db/db.json', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(data);
+
+        res.send(notesData)
+    });
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'))
+});
+
+app.listen(PORT,() => {
+console.log(`Running in port: http://localhost:${PORT}`)
+});
+
+
+
+// console.info(`${req.method} request recieved to get notes`);
+// });
