@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { title } = require('process');
 const { randomUUID } = require('crypto');
-// const uuid = require('./helpers/uuid');
+
 
 const PORT = 3001;
 
@@ -65,6 +65,27 @@ app.post('/api/notes', (req, res) => {
             res.send(notesData)
         });
       });
+  
+    });
+
+        app.delete("/api/notes/:id", function(req, res) {
+        console.log("req params", req.params.id)
+        fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+            let notes = JSON.parse(data);
+            const updatedNotes = notes.filter(({ id }) => id !== req.params.id);
+            fs.writeFile('./db/db.json', JSON.stringify(updatedNotes), (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                res.json({ message: 'Note deleted successfully' })
+            });
+        });   
+
 });
 
 app.get('*', (req, res) => {
