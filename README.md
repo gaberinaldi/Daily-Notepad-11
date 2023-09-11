@@ -22,6 +22,6 @@ Please refer to the LICENSE in the repo.
 
 ## Screenshots
 
-![Alt text](<Notes Post.png>)
+![Posted Notes](<Notes Post.png>)
 
-![Alt text](<Notes Delete.png>)
+![Deleted Notes](<Notes Delete.png>)
